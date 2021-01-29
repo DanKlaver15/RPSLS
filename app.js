@@ -29,6 +29,10 @@ class Game {
 
 	runGame() {
 		this.displayRules();
+
+		//Fill in this area with the logic for playing the game/choosing a winner
+
+		this.displayGameWinner();
 	}
 
 	displayRules() {
@@ -38,6 +42,15 @@ class Game {
 		console.log("The match will consist of 3 rounds.");
 		console.log("The first player to win at least 2 rounds is the winner of the match.")
 	}
+
+	displayGameWinner() {
+		if(this.playerOne.score > this.playerTwo.score) {
+		  console.log(this.playerOne.name + " wins this game!");
+		}
+		else {
+		  console.log(this.playerTwo.name + " wins this round!");
+		}
+	 }
 }
 
 /*====================================================================*/
