@@ -24,13 +24,16 @@ class Game {
 		this.gestures.push(new Gesture("lizard"));
 		this.gestures.push(new Gesture("spock"));
 
-		this.numberOfGames = 0;
+		this.numberOfRounds = 0;
 	}
 
 	runGame() {
 		this.displayRules();
 
-		//Fill in this area with the logic for playing the game/choosing a winner
+		let opponent = parseInt(prompt("Please enter the number (1-2) of human players"));
+		while (opponent !== 1 && opponent !== 2) {
+			opponent = parseInt(prompt("I'm sorry but your entry was invalid.  Please enter either a '1' or a '2' for the number of human players that will be playing."));
+		}
 
 		this.displayGameWinner();
 	}
