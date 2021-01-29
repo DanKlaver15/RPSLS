@@ -13,8 +13,8 @@
 
 class Game {
 	constructor() {
-		this.playerOne = new Player("Player 1");
-		this.playerTwo = new Player("Player 2");
+		this.playerOne = new Player("Player 1");	//Can I use an if statement here to determine if I need a new Human or Computer subclass?
+		this.playerTwo = new Player("Player 2");	//Or can I declare new human/computer subclasses in the runGame() method?
 
 		this.gestures = [];
 
@@ -34,16 +34,30 @@ class Game {
 		while (numPlayers !== 1 && numPlayers !== 2) {
 			numPlayers = parseInt(prompt("I'm sorry but your entry was invalid.  Please enter either a '1' or a '2' for the number of human players that will be playing."));
 		}
-		let roundWinner = [];
-		if (numPlayers = 1) {
-			let result = prompt("Player 1, please choose a gesture.").toLowerCase().trim();
-			while (!this.objectToArray().includes(result)) {
-				console.log("Your entry was invalid.");
-				result = prompt("Player 1, please choose a gesture.").toLowerCase().trim();;
-			}
-			
-		}
 
+		while (this.playerOne.score < 2 || this.playerTwo.score < 2) {
+			if (numPlayers = 1) {
+				let result1 = prompt("Player 1, please choose a gesture.").toLowerCase().trim();
+				while (!this.validateUserGesture(result1)) {
+					console.log("Your entry was invalid.");
+					result1 = prompt("Player 1, please choose a gesture.").toLowerCase().trim();;
+				}	
+			}
+
+			if (numPlayers = 2) {
+				let result1 = prompt("Player 1, please choose a gesture.").toLowerCase().trim();
+				while (!this.validateUserGesture(result1)) {
+					console.log("Your entry was invalid.");
+					result1 = prompt("Player 1, please choose a gesture.").toLowerCase().trim();;
+				}
+				let result2 = prompt("Player 2, please choose a gesture.").toLowerCase().trim();
+				while (!this.validateUserGesture(result2)) {
+					console.log("Your entry was invalid.");
+					result2 = prompt("Player 2, please choose a gesture.").toLowerCase().trim();;
+				}
+				this.compareGestures(result1, result2);
+			}
+		}
 
 
 		this.displayGameWinner();
@@ -68,10 +82,11 @@ class Game {
 	 }
 	
 	validateUserGesture(gesture) {
-		for (let i = 0; i < this.gestures.length; i++) {
-			if (!this.gestures.includes(gesture)) {
-
-			}
+		if (this.objectToArray().includes(gesture)) {
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 
@@ -82,6 +97,19 @@ class Game {
 		}
 		simpleArray = simpleArray.toString().split(",");
 		return simpleArray;
+	}
+
+	compareGestures(gesture1, gesture2) {
+		let defeats1 = ["scissors", "rock", "paper", "spock", "scissors"];
+		let defeats2 = ["lizard", "spock", "lizard", "paper", "rock"];
+		if (this.gestures.indexOf(gesture1) === defeats1.indexOf(gesture2) || this.gestures.indexOf(gesture1) === defeats2.indexOf(gesture2)) {
+			this.playerOne.score ++;
+			console.log("Player 1 wins this round!");
+		}
+		else {
+			this.playerTwo.score ++;
+			console.log("Player 2 wins this round!");
+		}
 	}
 }
 
@@ -97,6 +125,7 @@ class Player {
 		let choice = prompt("Please select a gesture.");
 		return choice;
 	}
+	
 }
 
 class Human extends Player {
