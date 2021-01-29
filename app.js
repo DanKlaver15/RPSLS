@@ -13,8 +13,8 @@
 
 class Game {
 	constructor() {
-		this.playerOne = new Player();
-		this.playerTwo = new Player();
+		this.playerOne = new Player("Player 1");
+		this.playerTwo = new Player("Player 2");
 
 		this.gestures = [];
 
@@ -24,16 +24,27 @@ class Game {
 		this.gestures.push(new Gesture("lizard"));
 		this.gestures.push(new Gesture("spock"));
 
-		this.numberOfRounds = 0;
 	}
 
 	runGame() {
+		
 		this.displayRules();
 
-		let opponent = parseInt(prompt("Please enter the number (1-2) of human players"));
-		while (opponent !== 1 && opponent !== 2) {
-			opponent = parseInt(prompt("I'm sorry but your entry was invalid.  Please enter either a '1' or a '2' for the number of human players that will be playing."));
+		let numPlayers = parseInt(prompt("Please enter the number (1-2) of human players"));
+		while (numPlayers !== 1 && numPlayers !== 2) {
+			numPlayers = parseInt(prompt("I'm sorry but your entry was invalid.  Please enter either a '1' or a '2' for the number of human players that will be playing."));
 		}
+		let roundWinner = [];
+		if (numPlayers = 1) {
+			let result = prompt("Player 1, please choose a gesture.").toLowerCase().trim();
+			while (!this.objectToArray().includes(result)) {
+				console.log("Your entry was invalid.");
+				result = prompt("Player 1, please choose a gesture.").toLowerCase().trim();;
+			}
+			
+		}
+
+
 
 		this.displayGameWinner();
 	}
@@ -55,6 +66,23 @@ class Game {
 		  console.log(this.playerTwo.name + " wins this round!");
 		}
 	 }
+	
+	validateUserGesture(gesture) {
+		for (let i = 0; i < this.gestures.length; i++) {
+			if (!this.gestures.includes(gesture)) {
+
+			}
+		}
+	}
+
+	objectToArray() {
+		let simpleArray = [];
+		for (let i = 0; i < this.gestures.length; i++) {
+			simpleArray.push(Object.values(this.gestures[i]));
+		}
+		simpleArray = simpleArray.toString().split(",");
+		return simpleArray;
+	}
 }
 
 /*====================================================================*/
