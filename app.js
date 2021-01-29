@@ -41,7 +41,9 @@ class Game {
 				while (!this.validateUserGesture(result1)) {
 					console.log("Your entry was invalid.");
 					result1 = prompt("Player 1, please choose a gesture.").toLowerCase().trim();;
-				}	
+				}
+				let result2 = this.Computer.generateRandomNumber();
+				this.compareGestures(result, result2);
 			}
 
 			if (numPlayers = 2) {
@@ -77,7 +79,7 @@ class Game {
 		  console.log(this.playerOne.name + " wins this game!");
 		}
 		else {
-		  console.log(this.playerTwo.name + " wins this round!");
+		  console.log(this.playerTwo.name + " wins this game!");
 		}
 	 }
 	
@@ -102,7 +104,7 @@ class Game {
 	compareGestures(gesture1, gesture2) {
 		let defeats1 = ["scissors", "rock", "paper", "spock", "scissors"];
 		let defeats2 = ["lizard", "spock", "lizard", "paper", "rock"];
-		if (this.gestures.indexOf(gesture1) === defeats1.indexOf(gesture2) || this.gestures.indexOf(gesture1) === defeats2.indexOf(gesture2)) {
+		if (this.gestures.objectToArray().indexOf(gesture1) === defeats1.indexOf(gesture2) || this.gestures.objectToArray().indexOf(gesture1) === defeats2.indexOf(gesture2)) {
 			this.playerOne.score ++;
 			console.log("Player 1 wins this round!");
 		}
@@ -142,7 +144,7 @@ class Computer extends Player {
 	}
 
 	generateRandomNumber() {
-		let randomNumber = Math.floor(Math.random() * this.numberOfSides) + 1;
+		let randomNumber = Math.floor(Math.random() * this.gestures.length) + 1;
 		return randomNumber;
 	 }
 }
