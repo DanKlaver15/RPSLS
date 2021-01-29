@@ -32,7 +32,11 @@ class Game {
 	}
 
 	displayRules() {
-
+		console.log("Welcome to Rock-Paper-Scissors-Lizard-Spock!");
+		console.log("Two players will pick a gesture with which to battle their opponent.");
+		console.log("If the first player chooses to play against the computer, the computer will choose its gestures at random.");
+		console.log("The match will consist of 3 rounds.");
+		console.log("The first player to win at least 2 rounds is the winner of the match.")
 	}
 }
 
