@@ -50,7 +50,8 @@ class Game {
 				while (!this.validateUserGesture(result1)) {
 					result1 = this.cleanResponse(prompt("Your entry was invalid." + "\n" + "Player 1, please choose a gesture (" + this.objectToArray().toString() + ")."));
 				}
-				let result2 = this.playerTwo.generateRandomNumber();
+				let randomNumber = this.playerTwo.generateRandomNumber();
+				let result2 = this.objectToArray()[randomNumber];
 				this.compareGestures(result1, result2);
 			}
 
