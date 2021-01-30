@@ -13,8 +13,7 @@
 
 class Game {
 	constructor() {
-		this.playerOne = new Player("Player 1");	//Can I use an if statement here to determine if I need a new Human or Computer subclass?
-		this.playerTwo = new Player("Player 2");	//Or can I declare new human/computer subclasses in the runGame() method?
+			//Or can I declare new human/computer subclasses in the runGame() method?
 
 		this.gestures = [];
 
@@ -35,27 +34,34 @@ class Game {
 			numPlayers = parseInt(prompt("I'm sorry but your entry was invalid.  Please enter either a '1' or a '2' for the number of human players that will be playing."));
 		}
 
-		while (this.playerOne.score < 2 || this.playerTwo.score < 2) {
+		if (numPlayers = 1) {
+			this.playerOne = new Human("Player 1");
+			this.playerTwo = new Computer("Player 2");
+		}
+		else if (numPlayers = 2) {
+			this.playerOne = new Human("Player 1");
+			this.playerTwo = new Human("Player 2");
+		}
+		
+
+		while (this.playerOne.score < 2 || this.playerTwo.score < 2) { //This "or" logic needs to be fixed.
 			if (numPlayers = 1) {
-				let result1 = prompt("Player 1, please choose a gesture.").toLowerCase().trim();
+				let result1 = this.cleanResponse(prompt("Player 1, please choose a gesture (" + this.objectToArray().toString() + ")."));
 				while (!this.validateUserGesture(result1)) {
-					console.log("Your entry was invalid.");
-					result1 = prompt("Player 1, please choose a gesture.").toLowerCase().trim();;
+					result1 = this.cleanResponse(prompt("Your entry was invalid." + "\n" + "Player 1, please choose a gesture (" + this.objectToArray().toString() + ")."));
 				}
-				let result2 = this.Computer.generateRandomNumber();
-				this.compareGestures(result, result2);
+				let result2 = this.playerTwo.generateRandomNumber();
+				this.compareGestures(result1, result2);
 			}
 
-			if (numPlayers = 2) {
-				let result1 = prompt("Player 1, please choose a gesture.").toLowerCase().trim();
+			else if (numPlayers = 2) {
+				let result1 = this.cleanResponse(prompt("Player 1, please choose a gesture (" + this.objectToArray().toString() + ")."));
 				while (!this.validateUserGesture(result1)) {
-					console.log("Your entry was invalid.");
-					result1 = prompt("Player 1, please choose a gesture.").toLowerCase().trim();;
+					result1 = this.cleanResponse(prompt("Your entry was invalid." + "\n" + "Player 1, please choose a gesture (" + this.objectToArray().toString() + ")."));
 				}
-				let result2 = prompt("Player 2, please choose a gesture.").toLowerCase().trim();
+				let result2 = this.cleanResponse(prompt("Player 2, please choose a gesture (" + this.objectToArray().toString() + ")."));
 				while (!this.validateUserGesture(result2)) {
-					console.log("Your entry was invalid.");
-					result2 = prompt("Player 2, please choose a gesture.").toLowerCase().trim();;
+					result2 = this.cleanResponse(prompt("Your entry was invalid." + "\n" + "Player 2, please choose a gesture (" + this.objectToArray().toString() + ")."));
 				}
 				this.compareGestures(result1, result2);
 			}
@@ -67,6 +73,7 @@ class Game {
 
 	displayRules() {
 		console.log("Welcome to Rock-Paper-Scissors-Lizard-Spock!");
+		console.log("You may choose from the following gestures: " + this.objectToArray().toString());
 		console.log("Two players will pick a gesture with which to battle their opponent.");
 		console.log("Player 1 may choose to play against another player or the computer.")
 		console.log("If the first player chooses to play against the computer, the computer will choose its gestures at random.");
@@ -104,7 +111,7 @@ class Game {
 	compareGestures(gesture1, gesture2) {
 		let defeats1 = ["scissors", "rock", "paper", "spock", "scissors"];
 		let defeats2 = ["lizard", "spock", "lizard", "paper", "rock"];
-		if (this.gestures.objectToArray().indexOf(gesture1) === defeats1.indexOf(gesture2) || this.gestures.objectToArray().indexOf(gesture1) === defeats2.indexOf(gesture2)) {
+		if (this.objectToArray().indexOf(gesture1) === defeats1.indexOf(gesture2) || this.objectToArray().indexOf(gesture1) === defeats2.indexOf(gesture2)) {
 			this.playerOne.score ++;
 			console.log("Player 1 wins this round!");
 		}
@@ -112,6 +119,10 @@ class Game {
 			this.playerTwo.score ++;
 			console.log("Player 2 wins this round!");
 		}
+	}
+
+	cleanResponse(str) {
+		return str.toLowerCase().trim();
 	}
 }
 
@@ -144,7 +155,7 @@ class Computer extends Player {
 	}
 
 	generateRandomNumber() {
-		let randomNumber = Math.floor(Math.random() * this.gestures.length) + 1;
+		let randomNumber = Math.floor(Math.random() * 5) + 1;
 		return randomNumber;
 	 }
 }
