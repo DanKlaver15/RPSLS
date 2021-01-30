@@ -70,6 +70,9 @@ class Game {
 
 
 		this.displayGameWinner();
+		let game = new Game();
+		game.runGame();
+
 	}
 
 	displayRules() {
@@ -112,7 +115,10 @@ class Game {
 	compareGestures(gesture1, gesture2) {
 		let defeats1 = ["scissors", "rock", "paper", "spock", "scissors"];
 		let defeats2 = ["lizard", "spock", "lizard", "paper", "rock"];
-		if (this.objectToArray().indexOf(gesture1) === defeats1.indexOf(gesture2) || this.objectToArray().indexOf(gesture1) === defeats2.indexOf(gesture2)) {
+		if (this.objectToArray().indexOf(gesture1) === this.objectToArray().indexOf(gesture2)) {
+			alert("You have both chosen the same gesture.  Please repeat the round.");
+		}
+		else if (this.objectToArray().indexOf(gesture1) === defeats1.indexOf(gesture2) || this.objectToArray().indexOf(gesture1) === defeats2.indexOf(gesture2)) {
 			this.playerOne.score ++;
 			console.log("Player 1 wins this round!");
 		}
