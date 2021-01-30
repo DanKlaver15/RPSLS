@@ -70,8 +70,6 @@ class Game {
 
 
 		this.displayGameWinner();
-		let game = new Game();
-		game.runGame();
 
 	}
 
@@ -87,10 +85,10 @@ class Game {
 
 	displayGameWinner() {
 		if(this.playerOne.score > this.playerTwo.score) {
-		  console.log(this.playerOne.name + " wins this game!");
+		  console.log(this.playerOne.name + " wins this game!" + "\n");
 		}
 		else {
-		  console.log(this.playerTwo.name + " wins this game!");
+		  console.log(this.playerTwo.name + " wins this game!" + "\n");
 		}
 	 }
 	
@@ -113,8 +111,8 @@ class Game {
 	}
 
 	compareGestures(gesture1, gesture2) {
-		let defeats1 = ["scissors", "rock", "paper", "spock", "scissors"];
-		let defeats2 = ["lizard", "spock", "lizard", "paper", "rock"];
+		let defeats1 = ["lizard", "rock", "paper", "spock", "scissors"];
+		let defeats2 = ["scissors", "spock", "lizard", "paper", "rock"];
 		if (this.objectToArray().indexOf(gesture1) === this.objectToArray().indexOf(gesture2)) {
 			alert("You have both chosen the same gesture.  Please repeat the round.");
 		}
@@ -179,3 +177,12 @@ class Gesture {
 
 let game = new Game();
 game.runGame();
+
+let repeatGame = prompt("Would you like to play again? Enter 'yes' to begin a new game or 'exit' to stop playing.");
+while (repeatGame.toLowerCase().trim() === "yes") {
+	let game = new Game();
+	game.runGame();
+}
+if (repeatGame.toLowerCase().trim() !== "yes" && repeatGame.toLowerCase().trim() !== "exit") {
+	repeatGame = prompt("Your response was invalid. Please enter 'yes' to begin a new game or 'exit' to stop playing.");
+}
