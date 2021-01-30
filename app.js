@@ -44,7 +44,7 @@ class Game {
 		}
 		
 
-		while (this.playerOne.score < 2 || this.playerTwo.score < 2) { //This "or" logic needs to be fixed.
+		while (this.playerOne.score < 2 && this.playerTwo.score < 2) { //This "or" logic needs to be fixed.
 			if (numPlayers = 1) {
 				let result1 = this.cleanResponse(prompt("Player 1, please choose a gesture (" + this.objectToArray().toString() + ")."));
 				while (!this.validateUserGesture(result1)) {
