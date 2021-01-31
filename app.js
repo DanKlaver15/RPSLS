@@ -34,18 +34,18 @@ class Game {
 			numPlayers = parseInt(prompt("I'm sorry but your entry was invalid.  Please enter either a '1' or a '2' for the number of human players that will be playing."));
 		}
 
-		if (numPlayers = 1) {
+		if (numPlayers === 1) {
 			this.playerOne = new Human("Player 1");
 			this.playerTwo = new Computer("Player 2");
 		}
-		else if (numPlayers = 2) {
+		else if (numPlayers === 2) {
 			this.playerOne = new Human("Player 1");
 			this.playerTwo = new Human("Player 2");
 		}
 		
 
-		while (this.playerOne.score < 2 && this.playerTwo.score < 2) { //This "or" logic needs to be fixed.
-			if (numPlayers = 1) {
+		while (this.playerOne.score < 2 && this.playerTwo.score < 2) {
+			if (numPlayers === 1) {
 				let result1 = this.cleanResponse(prompt("Player 1, please choose a gesture (" + this.objectToArray().toString() + ")."));
 				while (!this.validateUserGesture(result1)) {
 					result1 = this.cleanResponse(prompt("Your entry was invalid." + "\n" + "Player 1, please choose a gesture (" + this.objectToArray().toString() + ")."));
@@ -55,7 +55,7 @@ class Game {
 				this.compareGestures(result1, result2);
 			}
 
-			else if (numPlayers = 2) {
+			else if (numPlayers === 2) {
 				let result1 = this.cleanResponse(prompt("Player 1, please choose a gesture (" + this.objectToArray().toString() + ")."));
 				while (!this.validateUserGesture(result1)) {
 					result1 = this.cleanResponse(prompt("Your entry was invalid." + "\n" + "Player 1, please choose a gesture (" + this.objectToArray().toString() + ")."));
@@ -111,18 +111,28 @@ class Game {
 	}
 
 	compareGestures(gesture1, gesture2) {
+		let actions1 = ["crushes", "covers", "cuts", "poisons", "smashes"];
 		let defeats1 = ["lizard", "rock", "paper", "spock", "scissors"];
+		let actions2 = ["crushes", "disproves", "decapitates", "eats", "vaporizes"];
 		let defeats2 = ["scissors", "spock", "lizard", "paper", "rock"];
 		if (this.objectToArray().indexOf(gesture1) === this.objectToArray().indexOf(gesture2)) {
-			alert("You have both chosen the same gesture.  Please repeat the round.");
+			alert("You have both chosen " + gesture1 + ". Please repeat the round.");
 		}
-		else if (this.objectToArray().indexOf(gesture1) === defeats1.indexOf(gesture2) || this.objectToArray().indexOf(gesture1) === defeats2.indexOf(gesture2)) {
+		else if (this.objectToArray().indexOf(gesture1) === defeats1.indexOf(gesture2)) {
 			this.playerOne.score ++;
-			console.log("Player 1 wins this round!");
+			console.log(gesture1 + " " + actions1[this.objectToArray().indexOf(gesture1)] + " " + gesture2 + ".  Player 1 wins this round!");
+		}
+		else if (this.objectToArray().indexOf(gesture1) === defeats2.indexOf(gesture2)) {
+			this.playerOne.score ++;
+			console.log(gesture1 + " " + actions2[this.objectToArray().indexOf(gesture1)] + " " + gesture2 + ".  Player 1 wins this round!");
+		}
+		else if (this.objectToArray().indexOf(gesture2) === defeats1.indexOf(gesture1)) {
+			this.playerTwo.score ++;
+			console.log(gesture2 + " " + actions1[this.objectToArray().indexOf(gesture2)] + " " + gesture1 + ".  Player 2 wins this round!");
 		}
 		else {
 			this.playerTwo.score ++;
-			console.log("Player 2 wins this round!");
+			console.log(gesture2 + " " + actions2[this.objectToArray().indexOf(gesture2)] + " " + gesture1 + ".  Player 2 wins this round!");
 		}
 	}
 
