@@ -26,7 +26,7 @@ class Game {
 	}
 
 	runGame() {
-		
+
 		this.displayRules();
 
 		let numPlayers = parseInt(prompt("Please enter the number (1-2) of human players"));
@@ -70,6 +70,26 @@ class Game {
 
 
 		this.displayGameWinner();
+
+		let repeatGame = prompt("Would you like to play again? Enter 'yes' to begin a new game or click the 'cancel' button to stop playing.");
+		if (repeatGame === null) {
+			console.log("Goodbye!");
+			return;
+		}
+		else {
+			while (repeatGame.toLowerCase().trim() === "yes") {
+				game = new Game();
+				game.runGame();
+				repeatGame = prompt("Would you like to play again? Enter 'yes' to begin a new game or click the 'cancel' button to stop playing.");
+			}
+			if (repeatGame.toLowerCase().trim() !== "yes" && repeatGame.toLowerCase().trim() !== null) {
+				repeatGame = prompt("Your response was invalid. Please enter 'yes' to begin a new game or 'exit' to stop playing.");
+			}
+			else if (repeatGame === null) {
+				console.log("Goodbye!");
+				return;
+			}
+		} 
 
 	}
 
@@ -186,22 +206,3 @@ class Gesture {
 /*====================================================================*/
 
 let game = new Game();
-game.runGame();
-
-let repeatGame = prompt("Would you like to play again? Enter 'yes' to begin a new game or click the 'cancel' button to stop playing.");
-if (repeatGame === null) {
-	console.log("Goodbye!");
-}
-else {
-	while (repeatGame.toLowerCase().trim() === "yes") {
-		game = new Game();
-		game.runGame();
-		repeatGame = prompt("Would you like to play again? Enter 'yes' to begin a new game or click the 'cancel' button to stop playing.");
-	}
-	if (repeatGame.toLowerCase().trim() !== "yes" && repeatGame.toLowerCase().trim() !== null) {
-		repeatGame = prompt("Your response was invalid. Please enter 'yes' to begin a new game or 'exit' to stop playing.");
-	}
-	else if (repeatGame === null) {
-		console.log("Goodbye!");
-	}
-} 
