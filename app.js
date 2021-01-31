@@ -194,13 +194,14 @@ if (repeatGame === null) {
 }
 else {
 	while (repeatGame.toLowerCase().trim() === "yes") {
-		let game = new Game();
+		game = new Game();
 		game.runGame();
+		repeatGame = prompt("Would you like to play again? Enter 'yes' to begin a new game or click the 'cancel' button to stop playing.");
 	}
-	if (repeatGame.toLowerCase().trim() !== "yes" && repeatGame.toLowerCase().trim() !== NaN) {
+	if (repeatGame.toLowerCase().trim() !== "yes" && repeatGame.toLowerCase().trim() !== null) {
 		repeatGame = prompt("Your response was invalid. Please enter 'yes' to begin a new game or 'exit' to stop playing.");
 	}
-	else if (repeatGame === NaN) {
+	else if (repeatGame === null) {
 		console.log("Goodbye!");
 	}
 } 
