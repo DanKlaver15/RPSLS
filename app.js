@@ -30,7 +30,7 @@ class Game {
 		this.displayRules();
 
 		let numPlayers = parseInt(prompt("Please enter the number (1-2) of human players"));
-		while (numPlayers !== 1 && numPlayers !== 2) {
+		if (numPlayers !== 1 && numPlayers !== 2) {
 			numPlayers = parseInt(prompt("I'm sorry but your entry was invalid.  Please enter either a '1' or a '2' for the number of human players that will be playing."));
 		}
 
@@ -178,11 +178,19 @@ class Gesture {
 let game = new Game();
 game.runGame();
 
-let repeatGame = prompt("Would you like to play again? Enter 'yes' to begin a new game or 'exit' to stop playing.");
-while (repeatGame.toLowerCase().trim() === "yes") {
-	let game = new Game();
-	game.runGame();
+let repeatGame = prompt("Would you like to play again? Enter 'yes' to begin a new game or click the 'cancel' button to stop playing.");
+if (repeatGame === null) {
+	console.log("Goodbye!");
 }
-if (repeatGame.toLowerCase().trim() !== "yes" && repeatGame.toLowerCase().trim() !== "exit") {
-	repeatGame = prompt("Your response was invalid. Please enter 'yes' to begin a new game or 'exit' to stop playing.");
-}
+else {
+	while (repeatGame.toLowerCase().trim() === "yes") {
+		let game = new Game();
+		game.runGame();
+	}
+	if (repeatGame.toLowerCase().trim() !== "yes" && repeatGame.toLowerCase().trim() !== NaN) {
+		repeatGame = prompt("Your response was invalid. Please enter 'yes' to begin a new game or 'exit' to stop playing.");
+	}
+	else if (repeatGame === NaN) {
+		console.log("Goodbye!");
+	}
+} 
