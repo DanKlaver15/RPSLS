@@ -71,25 +71,7 @@ class Game {
 
 		this.displayGameWinner();
 
-		let repeatGame = prompt("Would you like to play again? Enter 'yes' to begin a new game or click the 'cancel' button to stop playing.");
-		if (repeatGame === null) {
-			console.log("Goodbye!");
-			return;
-		}
-		else {
-			while (repeatGame.toLowerCase().trim() === "yes") {
-				game = new Game();
-				game.runGame();
-				repeatGame = prompt("Would you like to play again? Enter 'yes' to begin a new game or click the 'cancel' button to stop playing.");
-			}
-			if (repeatGame.toLowerCase().trim() !== "yes" && repeatGame.toLowerCase().trim() !== null) {
-				repeatGame = prompt("Your response was invalid. Please enter 'yes' to begin a new game or 'exit' to stop playing.");
-			}
-			else if (repeatGame === null) {
-				console.log("Goodbye!");
-				return;
-			}
-		} 
+		this.askRepeatGame();		 
 
 	}
 
@@ -153,6 +135,27 @@ class Game {
 		else {
 			this.playerTwo.score ++;
 			console.log(gesture2 + " " + actions2[this.objectToArray().indexOf(gesture2)] + " " + gesture1 + ".  Player 2 wins this round!");
+		}
+	}
+
+	askRepeatGame() {
+		let repeatGame = prompt("Would you like to play again? Enter 'yes' to begin a new game or click the 'cancel' button to stop playing.");
+		if (repeatGame === null) {
+			console.log("Goodbye!");
+			return;
+		}
+		else {
+			while (repeatGame !== null && repeatGame.toLowerCase().trim() !== "yes") {
+				repeatGame = prompt("Your response was invalid. Please enter 'yes' to begin a new game or 'exit' to stop playing.");
+			}
+			if (repeatGame === null) {
+				console.log("Goodbye!");
+				return;
+			}
+			else if (repeatGame.toLowerCase().trim() === "yes") {
+				game = new Game();
+				game.runGame();
+			}
 		}
 	}
 
