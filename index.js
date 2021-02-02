@@ -13,7 +13,8 @@
 // repeate 2 more times for a total of "best out of 3"
 
 const prompt = require("prompt-sync")();
-const classes = require("./classes");
+const game = require("./gameClass");
+const Game = game.Game;
 
-let game = new classes.game();
-game.runGame();
+let newGame = new Game();
+newGame.runGame();
