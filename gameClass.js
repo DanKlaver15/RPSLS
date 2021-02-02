@@ -1,17 +1,14 @@
 "use strict";
-//Rock-Paper-Scissors-Lizard-Spock Game in Node.JS
-
-// two player game
-// user chooses to play against either the computer or another player
-// player 1 choose a gesture/item
-// validate input from player 1
-// players 2 or the computer choose a gesture
-// validate input from player 2 (validation not needed if playing against the computer)
-// compare the gestures
-// determine/display the winner
-// repeate 2 more times for a total of "best out of 3"
 
 const prompt = require("prompt-sync")();
+const human = require("./humanClass");
+const Human = human.Human;
+const computer = require("./computerClass");
+const Computer = computer.Computer;
+const gesture = require("./gestureClass");
+const Gesture = gesture.Gesture;
+
+/*======================================================================*/
 
 class Game {
 	constructor() {
@@ -29,10 +26,11 @@ class Game {
 	runGame() {
 
 		this.displayRules();
-
-		let numPlayers = parseInt(prompt("Please enter the number (1-2) of human players"));
-		if (numPlayers !== 1 && numPlayers !== 2) {
-			numPlayers = parseInt(prompt("I'm sorry but your entry was invalid.  Please enter either a '1' or a '2' for the number of human players that will be playing."));
+		console.log("Please enter the number (1-2) of human players");
+		let numPlayers = parseInt(prompt());
+		while (numPlayers !== 1 && numPlayers !== 2) {
+			console.log("I'm sorry but your entry was invalid.  Please enter either a '1' or a '2' for the number of human players that will be playing.");
+			numPlayers = parseInt(prompt());
 		}
 
 		if (numPlayers === 1) {
@@ -47,9 +45,11 @@ class Game {
 
 		while (this.playerOne.score < 2 && this.playerTwo.score < 2) {
 			if (numPlayers === 1) {
-				let result1 = this.cleanResponse(prompt("Player 1, please choose a gesture (" + this.objectToArray().toString() + ")."));
+				console.log("Player 1, please choose a gesture (" + this.objectToArray().toString() + ").");
+				let result1 = this.cleanResponse(prompt());
 				while (!this.validateUserGesture(result1)) {
-					result1 = this.cleanResponse(prompt("Your entry was invalid." + "\n" + "Player 1, please choose a gesture (" + this.objectToArray().toString() + ")."));
+					console.log("Your entry was invalid." + "Player 1, please choose a gesture (" + this.objectToArray().toString() + ").");
+					result1 = this.cleanResponse(prompt());
 				}
 				let randomNumber = this.playerTwo.generateRandomNumber();
 				let result2 = this.objectToArray()[randomNumber];
@@ -57,20 +57,23 @@ class Game {
 			}
 
 			else if (numPlayers === 2) {
-				let result1 = this.cleanResponse(prompt("Player 1, please choose a gesture (" + this.objectToArray().toString() + ")."));
+				console.log("Player 1, please choose a gesture (" + this.objectToArray().toString() + ").");
+				let result1 = this.cleanResponse(prompt());
 				while (!this.validateUserGesture(result1)) {
-					result1 = this.cleanResponse(prompt("Your entry was invalid." + "\n" + "Player 1, please choose a gesture (" + this.objectToArray().toString() + ")."));
+					console.log("Your entry was invalid." + "Player 1, please choose a gesture (" + this.objectToArray().toString() + ").");
+					result1 = this.cleanResponse(prompt());
 				}
-				let result2 = this.cleanResponse(prompt("Player 2, please choose a gesture (" + this.objectToArray().toString() + ")."));
+				console.log("Player 2, please choose a gesture (" + this.objectToArray().toString() + ").");
+				let result2 = this.cleanResponse(prompt());
 				while (!this.validateUserGesture(result2)) {
-					result2 = this.cleanResponse(prompt("Your entry was invalid." + "\n" + "Player 2, please choose a gesture (" + this.objectToArray().toString() + ")."));
+					console.log("Your entry was invalid." + "Player 2, please choose a gesture (" + this.objectToArray().toString() + ").");
+					result2 = this.cleanResponse(prompt());
 				}
 				this.compareGestures(result1, result2);
 			}
 		}
 
 		this.displayGameWinner();
-
 		this.askRepeatGame();		 
 
 	}
@@ -118,7 +121,8 @@ class Game {
 		let actions2 = ["crushes", "disproves", "decapitates", "eats", "vaporizes"];
 		let defeats2 = ["scissors", "spock", "lizard", "paper", "rock"];
 		if (this.objectToArray().indexOf(gesture1) === this.objectToArray().indexOf(gesture2)) {
-			alert("You have both chosen " + gesture1 + ". Please repeat the round.");
+			console.log("You have both chosen " + gesture1 + ". Please repeat the round.")
+			prompt();
 		}
 		else if (this.objectToArray().indexOf(gesture1) === defeats1.indexOf(gesture2)) {
 			this.playerOne.score ++;
@@ -139,22 +143,24 @@ class Game {
 	}
 
 	askRepeatGame() {
-		let repeatGame = prompt("Would you like to play again? Enter 'yes' to begin a new game or click the 'cancel' button to stop playing.");
-		if (repeatGame === null) {
+		console.log("Would you like to play again? Enter 'yes' to begin a new game or type 'exit' button to stop playing.");
+		let repeatGame = prompt();
+		if (repeatGame.trim().toLowerCase() === 'exit') {
 			console.log("Goodbye!");
 			return;
 		}
 		else {
-			while (repeatGame !== null && repeatGame.toLowerCase().trim() !== "yes") {
-				repeatGame = prompt("Your response was invalid. Please enter 'yes' to begin a new game or 'exit' to stop playing.");
+			while (repeatGame.trim().toLowerCase() !== "exit" && repeatGame.toLowerCase().trim() !== "yes") {
+				console.log("Your response was invalid. Please enter 'yes' to begin a new game or 'exit' to stop playing.");
+				repeatGame = prompt();
 			}
-			if (repeatGame === null) {
+			if (repeatGame.trim().toLowerCase() === "exit") {
 				console.log("Goodbye!");
 				return;
 			}
 			else if (repeatGame.toLowerCase().trim() === "yes") {
-				game = new Game();
-				game.runGame();
+				let additionalGame = new Game();
+				additionalGame.runGame();
 			}
 		}
 	}
@@ -166,46 +172,6 @@ class Game {
 
 /*====================================================================*/
 
-class Player {
-	constructor(name) {
-		this.name = name;
-		this.score = 0;
-	}
-
-	chooseGesture(gestureArray) {
-		let choice = prompt("Please select a gesture.");
-		return choice;
-	}
-	
+module.exports = {
+   Game: Game
 }
-
-class Human extends Player { //Can I just "super" in the score here as well?
-	constructor(name) {
-		super(name);
-		this.score = 0;
-	}
-}
-
-class Computer extends Player { //Can I just "super" in the score here as well?
-	constructor(name) {
-		super(name);
-		this.score = 0;
-	}
-
-	generateRandomNumber() {
-		let randomNumber = Math.floor(Math.random() * 5);
-		return randomNumber;
-	 }
-}
-
-/*====================================================================*/
-
-class Gesture {
-	constructor(name) {
-		this.name = name;
-	}
-}
-
-/*====================================================================*/
-
-module.exports.game = Game;
