@@ -1,0 +1,24 @@
+{
+  "name": "RPSLS",
+  "version": "1.0.0",
+  "description": "JS OOP program to play a game of rock/paper/scissors/lizard/spock.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanKlaver15/RPSLS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DanKlaver15/RPSLS/issues"
+  },
+  "homepage": "https://github.com/DanKlaver15/RPSLS#readme",
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  }
+}
