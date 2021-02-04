@@ -1,6 +1,7 @@
 "use strict";
 
 const prompt = require("prompt-sync")();
+const readlineSync = require('readline-sync');
 const human = require("./humanClass");
 const Human = human.Human;
 const computer = require("./computerClass");
@@ -73,28 +74,42 @@ class Game {
 		while (this.playerOne.score < 2 && this.playerTwo.score < 2) {
 			if (numPlayers === 1) {
 				console.log(this.addColor(Color.FgGreen, "Player 1", Color.Reset) + " please choose a gesture (" + this.objectToArray().toString() + ").");
-				let result1 = this.cleanResponse(prompt());
+				let result1 = this.cleanResponse(readlineSync.prompt());
 				while (!this.validateUserGesture(result1)) {
 					console.log("Your entry was invalid. " + this.addColor(Color.FgGreen, "Player 1", Color.Reset) + " please choose a gesture (" + this.objectToArray().toString() + ").");
 					result1 = this.cleanResponse(prompt());
 				}
 				let randomNumber = this.playerTwo.generateRandomNumber();
 				let result2 = this.objectToArray()[randomNumber];
+				while (this.objectToArray().indexOf(result1) === this.objectToArray().indexOf(result2)) {
+					console.log("You have both chosen " + result1 + ". Please repeat the round.")
+					console.log(this.addColor(Color.FgGreen, "Player 1", Color.Reset) + " please choose a gesture (" + this.objectToArray().toString() + ").");
+					result1 = this.cleanResponse(prompt());
+					randomNumber = this.playerTwo.generateRandomNumber();
+					result2 =  this.objectToArray()[randomNumber];
+				}
 				this.compareGestures(result1, result2);
 			}
 
 			else if (numPlayers === 2) {
 				console.log(this.addColor(Color.FgGreen, "Player 1", Color.Reset) + " please choose a gesture (" + this.objectToArray().toString() + ").");
-				let result1 = this.cleanResponse(prompt());
+				let result1 = this.cleanResponse(readlineSync.prompt({hideEchoBack: true, mask: "*"}));
 				while (!this.validateUserGesture(result1)) {
 					console.log("Your entry was invalid. " + this.addColor(Color.FgGreen, "Player 1", Color.Reset) + " please choose a gesture (" + this.objectToArray().toString() + ").");
-					result1 = this.cleanResponse(prompt());
+					result1 = this.cleanResponse(readlineSync.prompt({hideEchoBack: true, mask: "*"}));
 				}
-				console.log(this.addColor(Color.FgGreen, "Player 1", Color.Reset) + " please choose a gesture (" + this.objectToArray().toString() + ").");
-				let result2 = this.cleanResponse(prompt());
+				console.log(this.addColor(Color.FgGreen, "Player 2", Color.Reset) + " please choose a gesture (" + this.objectToArray().toString() + ").");
+				let result2 = this.cleanResponse(readlineSync.prompt({hideEchoBack: true, mask: "*"}));
 				while (!this.validateUserGesture(result2)) {
 					console.log("Your entry was invalid. " + this.addColor(Color.FgGreen, "Player 2", Color.Reset) + " please choose a gesture (" + this.objectToArray().toString() + ").");
-					result2 = this.cleanResponse(prompt());
+					result2 = this.cleanResponse(readlineSync.prompt({hideEchoBack: true, mask: "*"}));
+				}
+				while (this.objectToArray().indexOf(result1) === this.objectToArray().indexOf(result2)) {
+					console.log("You have both chosen " + result1 + ". Please repeat the round.")
+					console.log(this.addColor(Color.FgGreen, "Player 1", Color.Reset) + " please choose a gesture (" + this.objectToArray().toString() + ").");
+					result1 = this.cleanResponse(readlineSync.prompt({hideEchoBack: true, mask: "*"}));
+					console.log(this.addColor(Color.FgGreen, "Player 2", Color.Reset) + " please choose a gesture (" + this.objectToArray().toString() + ").");
+					result2 = this.cleanResponse(readlineSync.prompt({hideEchoBack: true, mask: "*"}));
 				}
 				this.compareGestures(result1, result2);
 			}
@@ -117,10 +132,10 @@ class Game {
 
 	displayGameWinner() {
 		if(this.playerOne.score > this.playerTwo.score) {
-		  console.log(this.addColor(Color.FgGreen, "Player 1", Color.Reset) + " wins this game!" + "\n");
+		  console.log(this.addColor(Color.FgGreen + "\x1b[1m", "Player 1", Color.Reset) + this.addColor("\x1b[1m", " wins this game!" + "\n", Color.Reset));
 		}
 		else {
-		  console.log(this.addColor(Color.FgGreen, "Player 2", Color.Reset) + " wins this game!" + "\n");
+		  console.log(this.addColor(Color.FgGreen + "\x1b[1m", "Player 2", Color.Reset) + this.addColor("\x1b[1m", " wins this game!" + "\n", Color.Reset));
 		}
 	 }
 	
@@ -147,11 +162,7 @@ class Game {
 		let defeats1 = ["lizard", "rock", "paper", "spock", "scissors"];
 		let actions2 = ["crushes", "disproves", "decapitates", "eats", "vaporizes"];
 		let defeats2 = ["scissors", "spock", "lizard", "paper", "rock"];
-		if (this.objectToArray().indexOf(gesture1) === this.objectToArray().indexOf(gesture2)) {
-			console.log("You have both chosen " + gesture1 + ". Please repeat the round.")
-			prompt();
-		}
-		else if (this.objectToArray().indexOf(gesture1) === defeats1.indexOf(gesture2)) {
+		if (this.objectToArray().indexOf(gesture1) === defeats1.indexOf(gesture2)) {
 			this.playerOne.score ++;
 			console.log(gesture1 + " " + actions1[this.objectToArray().indexOf(gesture1)] + " " + gesture2 + ".  " + this.addColor(Color.FgGreen, "Player 1", Color.Reset) + " wins this round!" + "\r\n");
 		}
@@ -170,7 +181,7 @@ class Game {
 	}
 
 	askRepeatGame() {
-		console.log("Would you like to play again? Enter " + this.addColor(Color.FgGreen, "yes", Color.Reset) + "to begin a new game or type " + this.addColor(Color.FgGreen, "exit", Color.Reset) +  "to stop playing.");
+		console.log("Would you like to play again? Enter " + this.addColor(Color.FgGreen, "yes", Color.Reset) + " to begin a new game or type " + this.addColor(Color.FgGreen, "exit", Color.Reset) +  " to stop playing.");
 		let repeatGame = prompt();
 		if (repeatGame.trim().toLowerCase() === 'exit') {
 			console.log("Goodbye!");
@@ -196,8 +207,8 @@ class Game {
 		return str.toLowerCase().trim();
 	}
 
-	addColor(color, string, reset) {
-		return (color + string + reset);
+	addColor(color, str, reset) {
+		return (color + str + reset);
 	}
 }
 
