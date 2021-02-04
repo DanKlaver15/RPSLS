@@ -7,6 +7,33 @@ const computer = require("./computerClass");
 const Computer = computer.Computer;
 const gesture = require("./gestureClass");
 const Gesture = gesture.Gesture;
+const Color = {
+  Reset: "\x1b[0m",
+  Bright: "\x1b[1m",
+  Dim: "\x1b[2m",
+  Underscore: "\x1b[4m",
+  Blink: "\x1b[5m",
+  Reverse: "\x1b[7m",
+  Hidden: "\x1b[8m",
+
+  FgBlack: "\x1b[30m",
+  FgRed: "\x1b[31m",
+  FgGreen: "\x1b[32m",
+  FgYellow: "\x1b[33m",
+  FgBlue: "\x1b[34m",
+  FgMagenta: "\x1b[35m",
+  FgCyan: "\x1b[36m",
+  FgWhite: "\x1b[37m",
+
+  BgBlack: "\x1b[40m",
+  BgRed: "\x1b[41m",
+  BgGreen: "\x1b[42m",
+  BgYellow: "\x1b[43m",
+  BgBlue: "\x1b[44m",
+  BgMagenta: "\x1b[45m",
+  BgCyan: "\x1b[46m",
+  BgWhite: "\x1b[47m"
+}
 
 /*======================================================================*/
 
@@ -60,13 +87,13 @@ class Game {
 				console.log("Player 1, please choose a gesture (" + this.objectToArray().toString() + ").");
 				let result1 = this.cleanResponse(prompt());
 				while (!this.validateUserGesture(result1)) {
-					console.log("Your entry was invalid." + "Player 1, please choose a gesture (" + this.objectToArray().toString() + ").");
+					console.log("Your entry was invalid. " + "Player 1, please choose a gesture (" + this.objectToArray().toString() + ").");
 					result1 = this.cleanResponse(prompt());
 				}
 				console.log("Player 2, please choose a gesture (" + this.objectToArray().toString() + ").");
 				let result2 = this.cleanResponse(prompt());
 				while (!this.validateUserGesture(result2)) {
-					console.log("Your entry was invalid." + "Player 2, please choose a gesture (" + this.objectToArray().toString() + ").");
+					console.log("Your entry was invalid. " + "Player 2, please choose a gesture (" + this.objectToArray().toString() + ").");
 					result2 = this.cleanResponse(prompt());
 				}
 				this.compareGestures(result1, result2);
@@ -126,19 +153,19 @@ class Game {
 		}
 		else if (this.objectToArray().indexOf(gesture1) === defeats1.indexOf(gesture2)) {
 			this.playerOne.score ++;
-			console.log(gesture1 + " " + actions1[this.objectToArray().indexOf(gesture1)] + " " + gesture2 + ".  Player 1 wins this round!");
+			console.log(gesture1 + " " + actions1[this.objectToArray().indexOf(gesture1)] + " " + gesture2 + ".  " + this.addColor(Color.FgGreen, "Player 1", Color.Reset) + " wins this round!" + "\r\n");
 		}
 		else if (this.objectToArray().indexOf(gesture1) === defeats2.indexOf(gesture2)) {
 			this.playerOne.score ++;
-			console.log(gesture1 + " " + actions2[this.objectToArray().indexOf(gesture1)] + " " + gesture2 + ".  Player 1 wins this round!");
+			console.log(gesture1 + " " + actions2[this.objectToArray().indexOf(gesture1)] + " " + gesture2 + ".  " + this.addColor(Color.FgGreen, "Player 1", Color.Reset) + " wins this round!" + "\r\n");
 		}
 		else if (this.objectToArray().indexOf(gesture2) === defeats1.indexOf(gesture1)) {
 			this.playerTwo.score ++;
-			console.log(gesture2 + " " + actions1[this.objectToArray().indexOf(gesture2)] + " " + gesture1 + ".  Player 2 wins this round!");
+			console.log(gesture2 + " " + actions1[this.objectToArray().indexOf(gesture2)] + " " + gesture1 + ".  " + this.addColor(Color.FgGreen, "Player 2", Color.Reset) + " wins this round!" + "\r\n");
 		}
 		else {
 			this.playerTwo.score ++;
-			console.log(gesture2 + " " + actions2[this.objectToArray().indexOf(gesture2)] + " " + gesture1 + ".  Player 2 wins this round!");
+			console.log(gesture2 + " " + actions2[this.objectToArray().indexOf(gesture2)] + " " + gesture1 + ".  " + this.addColor(Color.FgGreen, "Player 2", Color.Reset) + " wins this round!" + "\r\n");
 		}
 	}
 
@@ -167,6 +194,10 @@ class Game {
 
 	cleanResponse(str) {
 		return str.toLowerCase().trim();
+	}
+
+	addColor(color, string, reset) {	// Example: FgGreen === "\x1b[32m"
+		return (color + string + reset);
 	}
 }
 
