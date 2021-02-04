@@ -56,7 +56,7 @@ class Game {
 		console.log("Please enter the number (1-2) of human players");
 		let numPlayers = parseInt(prompt());
 		while (numPlayers !== 1 && numPlayers !== 2) {
-			console.log("I'm sorry but your entry was invalid.  Please enter either a '1' or a '2' for the number of human players that will be playing.");
+			console.log("I'm sorry but your entry was invalid.  Please enter either a " + this.addColor(Color.FgGreen, "1", Color.Reset) + " or a " + this.addColor(Color.FgGreen, "2", Color.Reset) + " for the number of human players that will be playing.");
 			numPlayers = parseInt(prompt());
 		}
 
@@ -72,10 +72,10 @@ class Game {
 
 		while (this.playerOne.score < 2 && this.playerTwo.score < 2) {
 			if (numPlayers === 1) {
-				console.log("Player 1, please choose a gesture (" + this.objectToArray().toString() + ").");
+				console.log(this.addColor(Color.FgGreen, "Player 1", Color.Reset) + " please choose a gesture (" + this.objectToArray().toString() + ").");
 				let result1 = this.cleanResponse(prompt());
 				while (!this.validateUserGesture(result1)) {
-					console.log("Your entry was invalid." + "Player 1, please choose a gesture (" + this.objectToArray().toString() + ").");
+					console.log("Your entry was invalid. " + this.addColor(Color.FgGreen, "Player 1", Color.Reset) + " please choose a gesture (" + this.objectToArray().toString() + ").");
 					result1 = this.cleanResponse(prompt());
 				}
 				let randomNumber = this.playerTwo.generateRandomNumber();
@@ -84,16 +84,16 @@ class Game {
 			}
 
 			else if (numPlayers === 2) {
-				console.log("Player 1, please choose a gesture (" + this.objectToArray().toString() + ").");
+				console.log(this.addColor(Color.FgGreen, "Player 1", Color.Reset) + " please choose a gesture (" + this.objectToArray().toString() + ").");
 				let result1 = this.cleanResponse(prompt());
 				while (!this.validateUserGesture(result1)) {
-					console.log("Your entry was invalid. " + "Player 1, please choose a gesture (" + this.objectToArray().toString() + ").");
+					console.log("Your entry was invalid. " + this.addColor(Color.FgGreen, "Player 1", Color.Reset) + " please choose a gesture (" + this.objectToArray().toString() + ").");
 					result1 = this.cleanResponse(prompt());
 				}
-				console.log("Player 2, please choose a gesture (" + this.objectToArray().toString() + ").");
+				console.log(this.addColor(Color.FgGreen, "Player 1", Color.Reset) + " please choose a gesture (" + this.objectToArray().toString() + ").");
 				let result2 = this.cleanResponse(prompt());
 				while (!this.validateUserGesture(result2)) {
-					console.log("Your entry was invalid. " + "Player 2, please choose a gesture (" + this.objectToArray().toString() + ").");
+					console.log("Your entry was invalid. " + this.addColor(Color.FgGreen, "Player 2", Color.Reset) + " please choose a gesture (" + this.objectToArray().toString() + ").");
 					result2 = this.cleanResponse(prompt());
 				}
 				this.compareGestures(result1, result2);
@@ -117,10 +117,10 @@ class Game {
 
 	displayGameWinner() {
 		if(this.playerOne.score > this.playerTwo.score) {
-		  console.log(this.playerOne.name + " wins this game!" + "\n");
+		  console.log(this.addColor(Color.FgGreen, "Player 1", Color.Reset) + " wins this game!" + "\n");
 		}
 		else {
-		  console.log(this.playerTwo.name + " wins this game!" + "\n");
+		  console.log(this.addColor(Color.FgGreen, "Player 2", Color.Reset) + " wins this game!" + "\n");
 		}
 	 }
 	
@@ -170,7 +170,7 @@ class Game {
 	}
 
 	askRepeatGame() {
-		console.log("Would you like to play again? Enter 'yes' to begin a new game or type 'exit' button to stop playing.");
+		console.log("Would you like to play again? Enter " + this.addColor(Color.FgGreen, "yes", Color.Reset) + "to begin a new game or type " + this.addColor(Color.FgGreen, "exit", Color.Reset) +  "to stop playing.");
 		let repeatGame = prompt();
 		if (repeatGame.trim().toLowerCase() === 'exit') {
 			console.log("Goodbye!");
@@ -178,7 +178,7 @@ class Game {
 		}
 		else {
 			while (repeatGame.trim().toLowerCase() !== "exit" && repeatGame.toLowerCase().trim() !== "yes") {
-				console.log("Your response was invalid. Please enter 'yes' to begin a new game or 'exit' to stop playing.");
+				console.log("Your response was invalid. Please enter " + this.addColor(Color.FgGreen, "yes", Color.Reset) + " to begin a new game or type " + this.addColor(Color.FgGreen, "exit", Color.Reset) +  " to stop playing.");
 				repeatGame = prompt();
 			}
 			if (repeatGame.trim().toLowerCase() === "exit") {
@@ -196,7 +196,7 @@ class Game {
 		return str.toLowerCase().trim();
 	}
 
-	addColor(color, string, reset) {	// Example: FgGreen === "\x1b[32m"
+	addColor(color, string, reset) {
 		return (color + string + reset);
 	}
 }
